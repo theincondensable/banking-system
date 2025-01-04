@@ -2,6 +2,7 @@ package io.incondensable.controller;
 
 import io.incondensable.controller.dto.TransactionRequestDTO;
 import io.incondensable.service.transaction.TransactionStrategyService;
+import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -22,8 +23,9 @@ public class TransactionController {
     }
 
     @PutMapping
-    public void makeTransaction(@Validated @RequestBody TransactionRequestDTO req) {
+    public ResponseEntity<String> makeTransaction(@Validated @RequestBody TransactionRequestDTO req) {
         transactionService.execute(req);
+        return ResponseEntity.ok("Successful Transaction");
     }
 
 }

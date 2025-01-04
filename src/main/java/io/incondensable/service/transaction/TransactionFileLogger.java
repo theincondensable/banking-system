@@ -2,7 +2,6 @@ package io.incondensable.service.transaction;
 
 import io.incondensable.global.LoggerObserver;
 import io.incondensable.model.TransactionTypeEnum;
-import io.incondensable.model.entity.AccountBalance;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.stereotype.Service;
@@ -16,16 +15,16 @@ import java.time.LocalDateTime;
  */
 @Service
 @PropertySource("classpath:custom-configs.properties")
-public class FileTransactionLogger implements LoggerObserver {
+public class TransactionFileLogger implements LoggerObserver {
 
     @Value("${transaction.log.file.path}")
     private String filePath;
 
     @Override
     public void onTransaction(String accountNumber, Double amount, TransactionTypeEnum transactionType) {
-        String logMessage = String.format("%s - Transaction Type: %s, Amount: %.2f, AccountNumber: %s%s\n",
+        String logMessage = String.format("%s - Transaction Type: %s, Amount: %.2f, AccountNumber: %s\n",
                 LocalDateTime.now(),
-                transactionType,
+                transactionType.name(),
                 amount,
                 accountNumber);
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(filePath, true))) {
